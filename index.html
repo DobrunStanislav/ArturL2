@@ -26,7 +26,7 @@
     <div id="ui">
         <strong>Виконав:</strong> Станіслав Добрун<br>
         <strong>Група:</strong> І-22<br>
-        <em>Наведіть камеру на маркер</em>
+        <em>Наведіть камеру на картинку-маркер</em>
     </div>
     
     <button id="startButton">Увімкнути AR-камеру</button>
@@ -43,12 +43,10 @@
         const {renderer, scene, camera} = mindarThree;
         const anchor = mindarThree.addAnchor(0);
 
-        // Створюємо завантажувач текстур
         const loader = new THREE.TextureLoader();
         loader.setCrossOrigin("anonymous");
 
-        // 1. ВАША АВАТАРКА (локальний файл)
-        // ВАЖЛИВО: Ваше фото на GitHub має називатися саме avatar.jpg
+        // 1. ВАШЕ ФОТО (Я змінив на avatar.jpg, як у вас у репозиторії)
         const texAvatar = loader.load('avatar.jpg');
         const obj1 = new THREE.Mesh(
             new THREE.PlaneGeometry(0.4, 0.4),
@@ -57,20 +55,20 @@
         obj1.position.set(-0.6, 0, 0);
         anchor.group.add(obj1);
 
-        // 2. КАРТИНКА З GITHUB (логотип Three.js)
-        const texGitHub = loader.load('https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/threejs/threejs.png');
+        // 2. ОФІЦІЙНА ТЕСТОВА ТЕКСТУРА 1 (Гарантовано працює)
+        const texBox = loader.load('https://threejs.org/examples/textures/crate.gif');
         const obj2 = new THREE.Mesh(
             new THREE.BoxGeometry(0.3, 0.3, 0.3),
-            new THREE.MeshBasicMaterial({ map: texGitHub })
+            new THREE.MeshBasicMaterial({ map: texBox })
         );
         obj2.position.set(0, 0, 0);
         anchor.group.add(obj2);
 
-        // 3. КАРТИНКА З ІНШОГО РЕСУРСУ (логотип React як приклад)
-        const texWiki = loader.load('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/512px-React-icon.svg.png');
+        // 3. ОФІЦІЙНА ТЕСТОВА ТЕКСТУРА 2 (Гарантовано працює)
+        const texSphere = loader.load('https://threejs.org/examples/textures/uv_grid_opengl.jpg');
         const obj3 = new THREE.Mesh(
             new THREE.SphereGeometry(0.2, 32, 32),
-            new THREE.MeshBasicMaterial({ map: texWiki })
+            new THREE.MeshBasicMaterial({ map: texSphere })
         );
         obj3.position.set(0.6, 0, 0);
         anchor.group.add(obj3);
@@ -85,14 +83,14 @@
             renderer.setAnimationLoop(() => {
                 const time = clock.getElapsedTime();
 
-                // а) Анімація ПЕРЕМІЩЕННЯ (вгору-вниз)
+                // а) ПЕРЕМІЩЕННЯ
                 obj1.position.y = Math.sin(time * 3) * 0.2;
 
-                // б) Анімація ОБЕРТАННЯ
+                // б) ОБЕРТАННЯ
                 obj2.rotation.x += 0.02;
                 obj2.rotation.y += 0.02;
 
-                // в) Анімація МАСШТАБУВАННЯ (пульсація)
+                // в) МАСШТАБУВАННЯ
                 const s = 1 + Math.sin(time * 4) * 0.3;
                 obj3.scale.set(s, s, s);
 
